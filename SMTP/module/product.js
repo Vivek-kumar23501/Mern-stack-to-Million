@@ -33,11 +33,18 @@ const fetchProduct=async(req,res)=>{
 }
 
 const updateProduct=(req,res)=>{
+    const payload=req.body
  const {id}=req.parms
- res.send(id)
+ const Product=db.collection("products")
+ Product.updateOne({_id:new ObjectId(id)},{$set: payload})
+ res.status(200).json(payload)
 }
-const deleteProduct=(req,res)=>{
-    res.send("delete product")
+const deleteProduct= async(req,res)=>{
+const {id}=req.parms
+
+const Product=db.collection("products")
+await Product.deleteOne({_id : new ObjectId(id)})
+res.status(200).json({message:"product deleted"})
 }
 
 module.exports={
